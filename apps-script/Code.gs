@@ -4,9 +4,10 @@
  * API JSON publicada como Web App. El frontend manda todo por POST con
  * Content-Type text/plain y un body { action, token, payload }.
  *
- * Script Properties necesarias (Configuración del proyecto → Propiedades del script):
- *   APP_PASSWORD  → contraseña compartida del equipo
- *   TOKEN_SECRET  → texto largo al azar para firmar los tokens
+ * Script Properties (Configuración del proyecto → Propiedades del script):
+ *   APP_PASSWORD  → contraseña compartida del equipo. Se puede cargar desde la
+ *                   planilla: menú "Calendario → Definir contraseña".
+ *   TOKEN_SECRET  → texto largo al azar para firmar los tokens. setup() lo crea solo.
  *
  * Antes de publicar, correr setup() una vez desde el editor.
  */
@@ -63,12 +64,37 @@ function setup() {
     if (existentes.indexOf(e.id) < 0) eq.appendRow([e.id, e.nombre, String(e.orden)]);
   });
   var props = PropertiesService.getScriptProperties();
-  var faltan = [];
-  if (!props.getProperty('APP_PASSWORD')) faltan.push('APP_PASSWORD');
-  if (!props.getProperty('TOKEN_SECRET')) faltan.push('TOKEN_SECRET');
-  var msg = 'Setup listo.' + (faltan.length ? ' Falta cargar en Script Properties: ' + faltan.join(', ') : '');
+  // El secreto de los tokens se genera solo: nadie lo tiene que saber ni escribir
+  if (!props.getProperty('TOKEN_SECRET')) {
+    props.setProperty('TOKEN_SECRET', (Utilities.getUuid() + Utilities.getUuid() + Utilities.getUuid()).replace(/-/g, ''));
+  }
+  var msg = 'Setup listo.' + (props.getProperty('APP_PASSWORD') ? '' :
+    ' Falta la contraseña: en la planilla, menú "Calendario → Definir contraseña" (si no aparece, recargá la planilla).');
   Logger.log(msg);
   return msg;
+}
+
+/** Menú en la planilla para definir o cambiar la contraseña sin entrar a la configuración del script */
+function onOpen() {
+  SpreadsheetApp.getUi().createMenu('Calendario')
+    .addItem('Definir contraseña', 'definirContrasena')
+    .addToUi();
+}
+
+function definirContrasena() {
+  var ui = SpreadsheetApp.getUi();
+  var props = PropertiesService.getScriptProperties();
+  var hay = !!props.getProperty('APP_PASSWORD');
+  var r = ui.prompt(hay ? 'Cambiar contraseña' : 'Definir contraseña',
+    'Contraseña que va a usar el equipo para entrar a la web (8 caracteres o más).' +
+    (hay ? '\n\nAl cambiarla se cierran todas las sesiones abiertas.' : ''),
+    ui.ButtonSet.OK_CANCEL);
+  if (r.getSelectedButton() !== ui.Button.OK) return;
+  var pass = r.getResponseText().trim();
+  if (pass.length < 8) { ui.alert('La contraseña tiene que tener 8 caracteres o más. No se cambió nada.'); return; }
+  props.setProperty('APP_PASSWORD', pass);
+  if (!props.getProperty('TOKEN_SECRET')) setup();
+  ui.alert('Listo. La contraseña quedó guardada.');
 }
 
 // ---------------------------------------------------------------------------
