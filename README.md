@@ -39,25 +39,20 @@ Mientras `config.js` no tenga la URL del Web App, la web funciona en **modo demo
 3. (Opcional, recomendado) En **Configuración del proyecto** (ícono de engranaje), tildá *Mostrar el archivo de manifiesto "appsscript.json"*. Después abrí `appsscript.json` en el editor y reemplazalo por el de [`apps-script/appsscript.json`](apps-script/appsscript.json). Así la zona horaria queda en America/Montevideo.
 4. Guardá (💾).
 
-### 3. Cargar la contraseña y el secreto del token
-
-1. En el editor de Apps Script: **Configuración del proyecto → Propiedades del script → Agregar propiedad**.
-2. Agregá estas dos:
-
-| Propiedad | Valor |
-|---|---|
-| `APP_PASSWORD` | La contraseña que va a usar el equipo. |
-| `TOKEN_SECRET` | Un texto largo al azar (40 caracteres o más), por ejemplo generado con un gestor de contraseñas. Nadie lo tiene que saber ni escribir. |
-
-3. Guardá las propiedades.
-
-### 4. Correr `setup()`
+### 3. Correr `setup()`
 
 1. En el editor, arriba, elegí la función **`setup`** y tocá **Ejecutar**.
 2. La primera vez Google pide permisos: **Revisar permisos → elegí la cuenta → Configuración avanzada → Ir a (nombre del proyecto) → Permitir**.
-3. `setup()` crea las pestañas `Equipos`, `Marcas` y `Contenidos` con sus encabezados (solo si no existen), carga los equipos CHILI, TABASCO, PUTAPARIÓ y PEPPERS y pone la planilla en formato texto para que no convierta fechas ni horas. En el registro de ejecución vas a ver `Setup listo.` (o un aviso si falta alguna propiedad del paso 3).
+3. `setup()` crea las pestañas `Equipos`, `Marcas` y `Contenidos` con sus encabezados (solo si no existen), carga los equipos CHILI, TABASCO, PUTAPARIÓ y PEPPERS, pone la planilla en formato texto para que no convierta fechas ni horas y genera solo el `TOKEN_SECRET` (el secreto que firma las sesiones; nadie lo tiene que saber).
 
 > Se puede volver a correr sin problema: no borra ni duplica nada.
+
+### 4. Definir la contraseña
+
+1. Volvé a la planilla y recargala: aparece el menú **Calendario**.
+2. **Calendario → Definir contraseña** y escribí la que va a usar el equipo (8 caracteres o más).
+
+Queda guardada en las Propiedades del script como `APP_PASSWORD` (también se puede cargar a mano en **Configuración del proyecto → Propiedades del script**).
 
 ### 5. Publicar como Web App
 
@@ -91,7 +86,7 @@ Las carpetas `tools/` y `apps-script/` no molestan si se publican, pero si quer�
 
 ### 8. Cambiar la contraseña más adelante
 
-1. Apps Script → **Configuración del proyecto → Propiedades del script** → editá `APP_PASSWORD`.
+1. En la planilla: **Calendario → Definir contraseña** (o en Apps Script → **Configuración del proyecto → Propiedades del script** → editá `APP_PASSWORD`).
 2. Listo: no hace falta volver a implementar. **Todas las sesiones abiertas se cierran solas** (el token incluye la contraseña en su firma), y cada persona tiene que entrar con la nueva.
 
 > Si cambiás el código de `Code.gs`, tenés que publicar una versión nueva: **Implementar → Administrar implementaciones → ✎ → Versión: Nueva versión → Implementar**. La URL no cambia.
