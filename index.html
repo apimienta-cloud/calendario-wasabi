@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Calendario de Contenidos · Wasabi</title>
+  <link rel="icon" type="image/png" href="assets/favicon-wasabi.png">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <!-- Login -->
+  <div id="login" class="login" hidden>
+    <form class="login-card" id="login-form" autocomplete="on">
+      <img src="assets/wasabi-logo-verde.png" alt="Wasabi" class="login-logo">
+      <span class="chip-privada">Área privada</span>
+      <h1>Calendario de Contenidos</h1>
+      <p class="login-sub">Ingresá la contraseña del equipo.</p>
+      <label class="sr-only" for="login-pass">Contraseña</label>
+      <input type="password" id="login-pass" placeholder="Contraseña" autocomplete="current-password" required>
+      <button type="submit" class="btn-login" id="login-btn">Ingresar</button>
+      <p class="login-error" id="login-error" role="alert"></p>
+      <p class="login-demo" id="login-demo" hidden><b>Modo demo.</b> Todavía no hay una planilla conectada: los datos quedan guardados solo en este navegador. Contraseña: <code>demo</code></p>
+    </form>
+  </div>
+
+  <!-- App -->
+  <div id="app" class="app" hidden>
+    <header class="topbar">
+      <button class="icon-btn menu-btn" id="menu-btn" aria-label="Abrir menú">☰</button>
+      <img src="assets/wasabi-logo-lima.png" alt="Wasabi" class="top-logo">
+      <span class="top-sep"></span>
+      <span class="top-title">Calendario de Contenidos</span>
+      <span class="demo-chip" id="demo-chip" hidden title="Los datos quedan solo en este navegador">Modo demo</span>
+      <span class="top-spacer"></span>
+      <button class="top-link" id="logout-btn">Salir</button>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <button class="side-all" id="side-all">Todas las marcas</button>
+        <nav id="side-equipos"></nav>
+        <label class="side-toggle"><input type="checkbox" id="ver-archivadas"> Mostrar archivadas</label>
+      </aside>
+      <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+      <main class="main">
+        <div class="toolbar">
+          <div class="tb-left">
+            <h2 class="scope-title" id="scope-title">Todas las marcas</h2>
+            <div class="period">
+              <button class="icon-btn" id="prev-btn" aria-label="Anterior">‹</button>
+              <button class="btn-ghost sm" id="today-btn">Hoy</button>
+              <button class="icon-btn" id="next-btn" aria-label="Siguiente">›</button>
+              <span class="period-label" id="period-label"></span>
+            </div>
+          </div>
+          <div class="tb-right">
+            <div class="seg" id="view-seg" role="tablist">
+              <button data-vista="mes" role="tab">Mes</button>
+              <button data-vista="semana" role="tab">Semana</button>
+              <button data-vista="lista" role="tab">Lista</button>
+            </div>
+            <button class="btn-ghost" id="import-btn">Importar cronograma</button>
+            <button class="btn-primary" id="new-btn">+ Contenido</button>
+          </div>
+        </div>
+
+        <div class="filters" id="filters">
+          <select id="f-equipo" aria-label="Equipo"></select>
+          <select id="f-marca" aria-label="Marca"></select>
+          <select id="f-red" aria-label="Red">
+            <option value="">Todas las redes</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+            <option value="tiktok">TikTok</option>
+            <option value="youtube">YouTube</option>
+            <option value="linkedin">LinkedIn</option>
+          </select>
+          <select id="f-estado" aria-label="Estado">
+            <option value="">Todos los estados</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="programado">Programado</option>
+            <option value="publicado">Publicado</option>
+          </select>
+          <select id="f-tipo" aria-label="Tipo">
+            <option value="">Feed y stories</option>
+            <option value="feed">Solo feed</option>
+            <option value="story">Solo stories</option>
+          </select>
+          <label class="check"><input type="checkbox" id="f-atrasadas"> Solo atrasadas</label>
+        </div>
+
+        <div class="counters" id="counters"></div>
+        <div id="banner"></div>
+        <div id="calendar" class="calendar"></div>
+      </main>
+    </div>
+  </div>
+
+  <div id="panel-root"></div>
+  <div id="modal-root"></div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

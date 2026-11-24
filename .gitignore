@@ -1,0 +1,6 @@
+tools/mock-server/data.json
+node_modules/
+
+# Datos de clientes y archivos locales: no se suben al repo público
+tools/test-parser/resultado.md
+prompt-calendario-wasabi.md

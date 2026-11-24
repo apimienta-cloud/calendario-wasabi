@@ -1,0 +1,1 @@
+{ "private": true, "type": "module", "name": "calendario-wasabi", "scripts": { "test-parser": "node tools/test-parser/test-parser.mjs", "dev": "node tools/mock-server/server.mjs" } }
