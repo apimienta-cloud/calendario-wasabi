@@ -248,7 +248,7 @@ button { cursor: pointer; }
 .chip-red.r-tiktok { --c: var(--tt); }
 .chip-red.r-youtube { --c: var(--yt); }
 .chip-red.r-linkedin { --c: var(--in); }
-.chip-red.s-programado { background: color-mix(in srgb, var(--c) 13%, white); border-color: color-mix(in srgb, var(--c) 55%, white); }
+.chip-red.s-programado { background: var(--c); border-color: var(--c); color: var(--blanco); }
 .chip-red.s-publicado { background: color-mix(in srgb, var(--c) 8%, white); text-decoration: line-through; opacity: .55; }
 .chip-red.atrasada { border-color: var(--naranja); background: var(--naranja-bg); color: var(--naranja-texto); }
 button.chip-red:hover { filter: brightness(.96); box-shadow: 0 0 0 2px color-mix(in srgb, var(--c) 20%, transparent); }
